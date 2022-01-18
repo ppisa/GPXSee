@@ -1066,6 +1066,8 @@ void GUI::openOptions()
 		QGeoPositionInfoSource *source = QGeoPositionInfoSource::createSource(
 		  options.plugin, options.pluginParams.value(options.plugin), this);
 #endif // QT 5.14
+		if (source)
+			source->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
 		_showPositionAction->setEnabled(source != 0);
 		_mapView->setPositionSource(source);
 		delete _positionSource;
@@ -2801,6 +2803,8 @@ void GUI::readSettings(QString &activeMap, QStringList &disabledPOIs)
 	_positionSource = QGeoPositionInfoSource::createSource(_options.plugin,
 	  _options.pluginParams.value(_options.plugin), this);
 #endif // QT 5.14
+	if (_positionSource)
+		_positionSource->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
 	_showPositionAction->setEnabled(_positionSource != 0);
 
 	settings.beginGroup(POSITION_SETTINGS_GROUP);
